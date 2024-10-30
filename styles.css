@@ -1,0 +1,38 @@
+/* styles.css */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    overflow: hidden; /* Scroll'u gizle */
+}
+
+.not-uygulamasi {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 100vh;
+    background-image: linear-gradient(to bottom, #fff 0%, #fff 100%), repeating-linear-gradient(to bottom, #e6e6e6 0%, #e6e6e6 1px, transparent 1px, transparent 25px);
+    background-size: 100% 25px, 100% 25px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.5s ease; /* Animasyon için geçiş ekleyin */
+}
+
+textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+    padding: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+    outline: none;
+    background: transparent;
+    color: #333;
+}

@@ -1,0 +1,52 @@
+// script.js
+const notlar = document.getElementById("notlar");
+const notUygulamasi = document.getElementById("notUygulamasi");
+
+let currentPage = 0; // Mevcut sayfa
+const totalPages = 3; // Toplam sayfa sayısı
+
+// Sayfa yüklendiğinde, daha önce kaydedilmiş notları getir
+window.onload = function() {
+    if (localStorage.getItem("notlar" + currentPage)) {
+        notlar.value = localStorage.getItem("notlar" + currentPage);
+    }
+};
+
+// Kullanıcı not yazdıkça, notları yerel depolamaya kaydet
+notlar.addEventListener("input", function() {
+    localStorage.setItem("notlar" + currentPage, notlar.value);
+});
+
+// Dokunma olayları için dinleyiciler ekleyin
+let startX;
+
+notUygulamasi.addEventListener("touchstart", function(event) {
+    startX = event.touches[0].clientX; // Başlangıç noktasını al
+});
+
+notUygulamasi.addEventListener("touchmove", function(event) {
+    const moveX = event.touches[0].clientX;
+    if (startX - moveX > 50) { // Sola kaydırma
+        changePage(1);
+    } else if (moveX - startX > 50) { // Sağa kaydırma
+        changePage(-1);
+    }
+});
+
+// Sayfa değişikliklerini yöneten fonksiyon
+function changePage(direction) {
+    if (direction === 1 && currentPage < totalPages - 1) {
+        currentPage++;
+    } else if (direction === -1 && currentPage > 0) {
+        currentPage--;
+    }
+    
+    // Yeni sayfanın notlarını yükle
+    loadCurrentPage();
+}
+
+// Mevcut sayfayı yükle
+function loadCurrentPage() {
+    notlar.value = localStorage.getItem("notlar" + currentPage) || '';
+    notUygulamasi.style.transform = `translateX(-${currentPage * 100}%)`; // Sayfa kaydırma
+}
