@@ -3,12 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Not Uygulaması</title>
+    <title>Ajanda Uygulaması 2024</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="not-uygulamasi" id="notUygulamasi">
-        <textarea id="notlar" placeholder="Notlarınızı buraya yazın..."></textarea>
+        <div class="header"></div> <!-- Mavi çizgi -->
+
+        <!-- Tarih ve Arama Çubuğu Alanı -->
+        <div class="top-section">
+            <input type="text" id="searchBar" placeholder="Notlarda Ara..." />
+            <div class="date-section" id="dateSection"></div>
+        </div>
+
+        <!-- Not Sayfası -->
+        <div class="not-sayfasi">
+            <textarea id="notlar" placeholder="Notlarınızı buraya yazın..."></textarea>
+        </div>
+
+        <!-- Alt Menü (Önizleme Resimleri) -->
+        <div class="alt-menu">
+            <div class="page-previews" id="pagePreviews"></div>
+        </div>
+
+        <!-- Ayarlar Menüsü -->
+        <div class="ayarlar">
+            <button id="ayarlarButton">⚙️</button>
+            <div class="ayarlar-menu" id="ayarlarMenu">
+                <label for="fontSelect">Yazı Tipi:</label>
+                <select id="fontSelect">
+                    <option value="'Courier New', Courier, monospace">Courier New</option>
+                    <option value="'Arial', sans-serif">Arial</option>
+                    <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                    <option value="'Georgia', serif">Georgia</option>
+                    <option value="'Verdana', sans-serif">Verdana</option>
+                </select>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

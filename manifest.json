@@ -1,52 +1,52 @@
 // script.js
-const notlar = document.getElementById("notlar");
-const notUygulamasi = document.getElementById("notUygulamasi");
+document.addEventListener("DOMContentLoaded", function() {
+    const dateSection = document.getElementById("dateSection");
+    const notlar = document.getElementById("notlar");
+    const searchBar = document.getElementById("searchBar");
+    const pagePreviews = document.getElementById("pagePreviews");
 
-let currentPage = 0; // Mevcut sayfa
-const totalPages = 3; // Toplam sayfa sayısı
+    // Tüm Günleri Oluştur (1 Ocak 2024'ten başlayarak)
+    const startDate = new Date(2024, 0, 1);
+    const totalDays = 365; // 2024 yılı için gün sayısı
 
-// Sayfa yüklendiğinde, daha önce kaydedilmiş notları getir
-window.onload = function() {
-    if (localStorage.getItem("notlar" + currentPage)) {
-        notlar.value = localStorage.getItem("notlar" + currentPage);
+    for (let i = 0; i < totalDays; i++) {
+        const currentDate = new Date(startDate);
+        currentDate.setDate(startDate.getDate() + i);
+        const options = { month: 'short', day: 'numeric' };
+        const previewText = currentDate.toLocaleDateString('tr-TR', options);
+
+        const pagePreview = document.createElement("div");
+        pagePreview.className = "page-preview";
+        pagePreview.innerText = previewText;
+
+        // Sayfa Geçişi için Event Listener
+        pagePreview.addEventListener("click", function() {
+            displayDate(currentDate);
+        });
+
+        pagePreviews.appendChild(pagePreview);
     }
-};
 
-// Kullanıcı not yazdıkça, notları yerel depolamaya kaydet
-notlar.addEventListener("input", function() {
-    localStorage.setItem("notlar" + currentPage, notlar.value);
-});
-
-// Dokunma olayları için dinleyiciler ekleyin
-let startX;
-
-notUygulamasi.addEventListener("touchstart", function(event) {
-    startX = event.touches[0].clientX; // Başlangıç noktasını al
-});
-
-notUygulamasi.addEventListener("touchmove", function(event) {
-    const moveX = event.touches[0].clientX;
-    if (startX - moveX > 50) { // Sola kaydırma
-        changePage(1);
-    } else if (moveX - startX > 50) { // Sağa kaydırma
-        changePage(-1);
+    // Tarihi Göster ve Not Sayfasını Güncelle
+    function displayDate(date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        dateSection.innerText = date.toLocaleDateString('tr-TR', options);
+        notlar.value = ""; // Yeni tarih için boş not sayfası
     }
+
+    // Arama Özelliği
+    searchBar.addEventListener("input", function() {
+        const searchTerm = searchBar.value;
+        const text = notlar.value;
+
+        if (searchTerm) {
+            const regex = new RegExp(`(${searchTerm})`, "gi");
+            notlar.innerHTML = text.replace(regex, '<mark>$1</mark>');
+        } else {
+            notlar.innerHTML = text;
+        }
+    });
+
+    // İlk Tarihi Göster
+    displayDate(startDate);
 });
-
-// Sayfa değişikliklerini yöneten fonksiyon
-function changePage(direction) {
-    if (direction === 1 && currentPage < totalPages - 1) {
-        currentPage++;
-    } else if (direction === -1 && currentPage > 0) {
-        currentPage--;
-    }
-    
-    // Yeni sayfanın notlarını yükle
-    loadCurrentPage();
-}
-
-// Mevcut sayfayı yükle
-function loadCurrentPage() {
-    notlar.value = localStorage.getItem("notlar" + currentPage) || '';
-    notUygulamasi.style.transform = `translateX(-${currentPage * 100}%)`; // Sayfa kaydırma
-}
